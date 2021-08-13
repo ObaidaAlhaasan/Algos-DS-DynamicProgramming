@@ -87,5 +87,28 @@ namespace Data.Structure.Tests.Dynamic.TabulationTests
             Assert.Equal(4, CountConstruct.G("enterapotentpot", new List<string> { "a", "p", "ent", "enter", "ot", "o", "t" }));
             Assert.Equal(0, CountConstruct.G("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", new List<string> { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }));
         }
+
+
+        [Fact]
+        public void AllConstructNumFromArr()
+        {
+            var list1 = AllConstruct.G("purple", new List<string> { "purp", "p", "ur", "le", "purpl" });
+            Assert.True(list1?.Any(l => l.Contains("purp") && l.Contains("le")));
+            Assert.True(list1?.Any(l => l.Contains("p") && l.Contains("ur") && l.Contains("p") && l.Contains("le")));
+            Assert.True(list1?.Count == 2);
+
+            var list2 = AllConstruct.G("abcdef", new List<string> { "ab", "abc", "cd", "def", "abcd", "ef", "c" });
+            Assert.True(list2?.Any(l => l.Contains("ab") && l.Contains("cd") && l.Contains("ef")));
+            Assert.True(list2?.Any(l => l.Contains("ab") && l.Contains("c") && l.Contains("def")));
+            Assert.True(list2?.Any(l => l.Contains("abc") && l.Contains("def")));
+            Assert.True(list2?.Any(l => l.Contains("abcd") && l.Contains("ef")));
+            Assert.True(list2?.Count == 4);
+            
+            var list3 = AllConstruct.G("skateboard", new List<string> { "bo", "rd", "ate", "t", "ska", "sk", "boar" });
+            Assert.True(list3.Count == 0);
+
+            var list4 = AllConstruct.G("aaaaaaaaaz", new List<string> { "a", "aa", "aaa", "aaaa", "aaaaa" });
+            Assert.True(list4.Count == 0);
+        }
     }
 }
