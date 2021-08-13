@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Obaida\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Obaida\\.nuget\\packages"
+    ]
+  }
+}
