@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Data.Structure.Dynamic.Tabulation;
 using Xunit;
 
@@ -54,10 +55,6 @@ namespace Data.Structure.Tests.Dynamic.TabulationTests
         [Fact]
         public void BestSumNumFromArr()
         {
-            var l1 = BestSum.G(new[] { 2, 3 }, 7);
-
-            Assert.True(l1?.Contains(7) == true && l1?.Count == 1);
-
             Assert.True(BestSum.G(new[] { 5, 3, 4, 7 }, 7)?.Contains(7));
 
             Assert.True(BestSum.G(new[] { 2, 3, 5 }, 8)?.Contains(3) == true);
@@ -69,6 +66,26 @@ namespace Data.Structure.Tests.Dynamic.TabulationTests
 
             var list = BestSum.G(new[] { 1, 2, 5, 25 }, 100);
             Assert.True(list?.All(x => x == 25));
+        }
+
+        [Fact]
+        public void CanConstructFromWords()
+        {
+            Assert.True(CanConstruct.G("abcdef", new List<string> { "ab", "abc", "cd", "def", "abcd" }));
+            Assert.False(CanConstruct.G("skateboard", new List<string> { "bo", "rd", "ate", "t", "ska", "sk", "boar" }));
+            Assert.True(CanConstruct.G("enterapotentpot", new List<string> { "a", "p", "ent", "enter", "ot", "o", "t" }));
+            Assert.False(CanConstruct.G("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", new List<string> { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }));
+        }
+
+
+        [Fact]
+        public void CountConstructFromWords()
+        {
+            Assert.Equal(2, CountConstruct.G("purple", new List<string> { "purp", "p", "ur", "le", "purpl" }));
+            Assert.Equal(1, CountConstruct.G("abcdef", new List<string> { "ab", "abc", "cd", "def", "abcd" }));
+            Assert.Equal(0, CountConstruct.G("skateboard", new List<string> { "bo", "rd", "ate", "t", "ska", "sk", "boar" }));
+            Assert.Equal(4, CountConstruct.G("enterapotentpot", new List<string> { "a", "p", "ent", "enter", "ot", "o", "t" }));
+            Assert.Equal(0, CountConstruct.G("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", new List<string> { "e", "ee", "eee", "eeee", "eeeee", "eeeeee" }));
         }
     }
 }
