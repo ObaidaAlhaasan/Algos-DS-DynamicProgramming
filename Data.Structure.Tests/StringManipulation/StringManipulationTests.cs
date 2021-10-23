@@ -78,5 +78,29 @@ namespace Data.Structure.Tests.StringManipulation
             Assert.Equal(true, StringManipulations.StringIsPalindrome("abcba"));
             Assert.Equal(false, StringManipulations.StringIsPalindrome("abca"));
         }
+
+        [Fact]
+        public void BoyerMooreHorSpool()
+        {
+            Assert.Equal(true, StringManipulations.BoyerMooreHorspoolAlgo("TEST", "THIS IS A TEST TEXT"));
+            Assert.Equal(true, StringManipulations.BoyerMooreHorspoolAlgo("AABA", "AABAACAADAABAABA"));
+            Assert.Equal(false, StringManipulations.BoyerMooreHorspoolAlgo("GOGO", "Here is the Truth TOOTH of "));
+        }
+
+        [Fact]
+        public void BoyerMooreHorSpoolArr()
+        {
+            Assert.Equal(10, StringManipulations.BoyerMooreHorspoolArr("TEST", "THIS IS A TEST TEXT"));
+            Assert.Equal(0, StringManipulations.BoyerMooreHorspoolArr("AABA", "AABAACAADAABAABA"));
+            Assert.Equal(-1, StringManipulations.BoyerMooreHorspoolArr("GOGO", "Here is the Truth TOOTH of "));
+        }
+
+        [Fact]
+        public void BoyerMooreHorSpoolSimple()
+        {
+            Assert.Equal(10, StringManipulations.BoyerMooreHorspoolSimpleAlgo("TEST", "THIS IS A TEST TEXT"));
+            Assert.Equal(0, StringManipulations.BoyerMooreHorspoolSimpleAlgo("AABA", "AABAACAADAABAABA"));
+            Assert.Equal(-1, StringManipulations.BoyerMooreHorspoolSimpleAlgo("GOGO", "Here is the Truth TOOTH of "));
+        }
     }
 }

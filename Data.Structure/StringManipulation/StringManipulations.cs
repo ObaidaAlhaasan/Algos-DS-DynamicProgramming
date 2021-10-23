@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,7 +16,7 @@ namespace Data.Structure.StringManipulation
             if (string.IsNullOrWhiteSpace(str))
                 return 0;
 
-            var vowels = new HashSet<char> {'A', 'E', 'O', 'U', 'I'};
+            var vowels = new HashSet<char> { 'A', 'E', 'O', 'U', 'I' };
 
             return str.Count(ch => vowels.Contains(char.ToUpper(ch)));
         }
@@ -90,7 +91,7 @@ namespace Data.Structure.StringManipulation
                 if (frequency <= max) continue;
 
                 max = frequency;
-                maxChar = (char) index;
+                maxChar = (char)index;
             }
 
             return maxChar;
@@ -162,7 +163,7 @@ namespace Data.Structure.StringManipulation
         {
             if (string.IsNullOrWhiteSpace(str))
                 return false;
-            
+
             // option 1 4 time loops
             // var input = new StringBuilder(str);
             // return input.ToString().Reverse().SequenceEqual(str);
@@ -178,6 +179,94 @@ namespace Data.Structure.StringManipulation
             }
 
             return true;
+        }
+
+        public static bool BoyerMooreHorspoolAlgo(string match, string sentence)
+        {
+            var matches = new Dictionary<char, int>();
+
+            for (var k = 0; k < match.Length - 1; k++)
+                matches[match[k]] = match.Length - k - 1;
+
+            var i = 0;
+            var lastMatchIndex = 0;
+
+            while (i + match.Length <= sentence.Length)
+            {
+                lastMatchIndex = match.Length - 1;
+
+                // if matching go reverse in letters and check them one by one
+                while (sentence[i + lastMatchIndex] == match[lastMatchIndex])
+                {
+                    lastMatchIndex -= 1;
+
+                    if (lastMatchIndex < 0)
+                        return true;
+                }
+
+                // else jump
+                if (matches.ContainsKey(sentence[i]))
+                    i += matches.GetValueOrDefault(sentence[i]);
+                else
+                    i += match.Length - 1;
+            }
+
+            return false;
+        }
+
+        public static int BoyerMooreHorspoolSimpleAlgo(string pattern, string text)
+        {
+            int patternSize = pattern.Length;
+
+            int i = 0, j = 0;
+
+            while ((i + patternSize) <= text.Length)
+            {
+                j = patternSize - 1;
+                while (text[i + j] == pattern[j])
+                {
+                    j--;
+                    if (j < 0)
+                        return i;
+                }
+
+                i++;
+            }
+
+            return -1;
+        }
+
+        public static int BoyerMooreHorspoolArr(string pattern, string text)
+        {
+            var shift = new int[ASCII_MAXSIZE];
+
+            for (int k = 0; k < 256; k++)
+            {
+                shift[k] = pattern.Length;
+            }
+
+            for (int k = 0; k < pattern.Length - 1; k++)
+            {
+                shift[pattern[k]] = pattern.Length - 1 - k;
+            }
+
+            int i = 0, j = 0;
+
+            while ((i + pattern.Length) <= text.Length)
+            {
+                j = pattern.Length - 1;
+
+                while (text[i + j] == pattern[j])
+                {
+                    j -= 1;
+                    if (j < 0)
+                        return i;
+                }
+
+                i += shift[text[i + pattern.Length - 1]];
+            }
+
+            return -1;
         }
     }
 }
