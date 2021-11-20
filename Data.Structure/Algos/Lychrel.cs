@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
 
 namespace Data.Structure.Algos
 {
     public static class Lychrel
     {
-        public static int ConversionAtIteration(ulong n, int limit) => Conversion(n, 0);
+        public static int ConversionAtIteration(ulong n, int limit) => Conversion(n, 0, limit);
 
-        private static int Conversion(ulong n, int iteration)
+        private static int Conversion(ulong n, int iteration, int limit)
         {
-            if (IsPalindrome(n))
-                return iteration;
+            if (!IsPalindrome(n) && iteration < limit)
+                return Conversion(n + Reverse(n), iteration + 1, limit);
 
-            return Conversion(n + Reverse(n), iteration + 1);
+            return iteration;
         }
 
         public static ulong Reverse(ulong n)

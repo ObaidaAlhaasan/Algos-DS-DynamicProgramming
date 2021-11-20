@@ -1,12 +1,11 @@
-﻿using System;
-using Data.Structure.Algos;
+﻿using Data.Structure.Algos;
 using Xunit;
 
 namespace Data.Structure.Tests.Algos
 {
     public class LychrelNumberTests
     {
-        private readonly int LIMIT = 1000;
+        private readonly int LIMIT = 40;
 
         [Fact]
         public void Facts()
@@ -18,7 +17,11 @@ namespace Data.Structure.Tests.Algos
             ConversionAtIteration(19, 2);
             ConversionAtIteration(78, 4);
             ConversionAtIteration(89, 24);
+
+            DoesNotConverges(196);
         }
+
+        private void DoesNotConverges(int n) => ConversionAtIteration(n, LIMIT);
 
         private void ConversionAtIteration(int n, int iteration)
         {
