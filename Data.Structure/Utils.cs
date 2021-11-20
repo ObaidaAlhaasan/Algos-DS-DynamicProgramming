@@ -6,12 +6,7 @@ namespace Data.Structure
 {
     public static class Utils
     {
-        public static void Swap(int[] arr, int f, int s)
-        {
-            var temp = arr[f];
-            arr[f] = arr[s];
-            arr[s] = temp;
-        }
+        public static void Swap(int[] arr, int f, int s) => (arr[f], arr[s]) = (arr[s], arr[f]);
 
         public static int FindMinIndex(int[] arr, int i)
         {
@@ -99,5 +94,9 @@ namespace Data.Structure
         {
             return (x) => g(f(x));
         }
+
+
+        public static IEnumerable<char> Join(this IEnumerable<char> str) => string.Join(string.Empty, str);
+        public static string Join(this string str) => string.Join(string.Empty, str);
     }
 }
