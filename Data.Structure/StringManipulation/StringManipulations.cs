@@ -110,9 +110,7 @@ namespace Data.Structure.StringManipulation
             if (string.IsNullOrWhiteSpace(str))
                 return "";
 
-            const RegexOptions options = RegexOptions.None;
-            var regex = new Regex("[ ]{2,}", options);
-            var words = regex.Replace(str.Trim(), " ").Split(" ");
+            var words = str.ReplaceMultipleWhiteSpacesWithOne().Split(" ");
 
             var i = 0;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Data.Structure
 {
@@ -97,6 +98,20 @@ namespace Data.Structure
 
 
         public static IEnumerable<char> Join(this IEnumerable<char> str) => string.Join(string.Empty, str);
+        public static IEnumerable<char> Join(this IEnumerable<char> str, string join) => string.Join(join, str);
+
+        public static string Join(this IEnumerable<string> str, string join) => string.Join(@join, str);
+
         public static string Join(this string str) => string.Join(string.Empty, str);
+        public static bool IsNullOrEmpty(this string? str) => string.IsNullOrEmpty(str);
+        public static bool IsNullOrWhiteSpace(this string? str) => string.IsNullOrWhiteSpace(str);
+        public static bool ContainsIgnoreCase(this string? str, string val) => str?.Contains(val, StringComparison.OrdinalIgnoreCase) == true;
+
+        public static string ReplaceMultipleWhiteSpacesWithOne(this string? str)
+        {
+            const RegexOptions options = RegexOptions.None;
+            var regex = new Regex("[ ]{2,}", options);
+            return regex.Replace(str.Trim(), " ");
+        }
     }
 }
