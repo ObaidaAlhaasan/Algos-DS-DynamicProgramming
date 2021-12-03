@@ -1,12 +1,8 @@
 ﻿namespace Patterns.Architecture.Turnstiles
 {
-    public abstract class TurnstileFsmState
+    public interface ITurnstileFsmState
     {
-        protected Turnstile Turnstile { get; private set; }
-
-        protected TurnstileFsmState(Turnstile turnstile) => Turnstile = turnstile;
-
-        public abstract void Coin(TurnstileFsm turnstileFsm);
-        public abstract void Pass(TurnstileFsm turnstileFsm);
+        public void Coin(TurnstileFsm turnstileFsm);
+        public void Pass(TurnstileFsm turnstileFsm);
     }
 }

@@ -2,15 +2,15 @@
 {
     public class TurnstileFsm
     {
-        public TurnstileFsmState ActiveState { get; private set; }
+        public ITurnstileFsmState ActiveState { get; private set; }
         private Turnstile Turnstile { get; set; }
 
         public TurnstileFsm(Turnstile turnstile)
         {
             Turnstile = turnstile;
-            ActiveState = new LockedTurnstileFsmState(turnstile);
         }
 
+        // Events Functions
         public void Coin()
         {
             ActiveState.Coin(this);
@@ -21,9 +21,28 @@
             ActiveState.Pass(this);
         }
 
-        public void SetState(TurnstileFsmState newState)
+        public void SetState(ITurnstileFsmState newState) => ActiveState = newState;
+
+        // Actions Functions
+
+        public virtual void Alarm()
         {
-            ActiveState = newState;
+            Turnstile.Alarm();
+        }
+
+        public virtual void Lock()
+        {
+            Turnstile.LockAction();
+        }
+
+        public virtual void Unlock()
+        {
+            Turnstile.UnlockAction();
+        }
+
+        public virtual void ThankYou()
+        {
+            Turnstile.ThankYou();
         }
     }
 }

@@ -1,62 +1,116 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Patterns.Architecture.Turnstiles;
 using Xunit;
 
 namespace Patterns.Architecture.Tests.TurnstileTests
 {
-    public class TurnstileFsmTests
+    public class TurnstileFsmTests : TurnstileFsm
     {
-        private TurnstileFsm _fsm;
+        private string Actions;
 
-        public TurnstileFsmTests()
+        public TurnstileFsmTests() : base(new Turnstile())
         {
-            _fsm = new TurnstileFsm(new Turnstile());
+            SetState(new OneCoinTurnStileStateLocked());
+            Actions = "";
         }
 
         [Fact]
-        public async Task initially_Locked()
+        public async Task NormalOperation()
         {
-            Assert.True(_fsm.ActiveState is LockedTurnstileFsmState);
+            Coin();
+            AssertActions("U");
+            Pass();
+            AssertActions("UL");
+            // Assert.True(_fsm.ActiveState is OneCoinTurnStileStateLocked);
         }
 
         [Fact]
-        public async Task AddingCoin_WhenLocked_ShouldBeUnlocked()
+        public async Task ForcedEntry()
         {
-            _fsm.Coin();
-            Assert.True(_fsm.ActiveState is UnlockedTurnstileFsmState);
+            Pass();
+            AssertActions("A");
         }
 
         [Fact]
-        public async Task PassingTurnstile_WhenLocked_ShouldBe_LockedAndSendAlarm()
+        public async Task DoublePayment()
         {
-            _fsm.Pass();
-            // Assert.Equal("Alarm, someone passed turnstile without passing a coin", alarm);
-            Assert.True(_fsm.ActiveState is LockedTurnstileFsmState);
+            Coin();
+            Coin();
+            AssertActions("UT");
+            // Assert.True(_fsm.ActiveState is OneCoinTurnStileStateUnlocked);
         }
 
+
         [Fact]
+        public async Task ManyCoins()
+        {
+            for (int i = 0; i < 5; i++)
+                Coin();
+
+            AssertActions("UTTTT");
+            // Assert.True(_fsm.ActiveState is OneCoinTurnStileStateLocked);
+        }
+
+
+        [Fact]
+        public async Task ManyCoinsThenPass()
+        {
+            for (int i = 0; i < 5; i++)
+                Coin();
+
+            Pass();
+
+            AssertActions("UTTTTL");
+            // Assert.True(_fsm.ActiveState is OneCoinTurnStileStateLocked);
+        }
+
+        [Fact(Skip = "Old implementation")]
         public async Task PassingCoin_WhenUnlocked_ShouldBe_UnlockedAndSendThankYou()
         {
-            _fsm.Coin();
+            Coin();
 
             // Assert.Empty(thankYouFirstTime);
             // Assert.Equal("Thank you, you already inserted a coin", thankYouSecondTime);
         }
 
-        [Fact]
+        [Fact(Skip = "Old implementation")]
         public async Task PassingEvent_WhenUnlocked_ShouldBackToLocked()
         {
-            _fsm = new TurnstileFsm(new Turnstile());
-            Assert.True(_fsm.ActiveState is LockedTurnstileFsmState);
+            Assert.True(ActiveState is OneCoinTurnStileStateLocked);
 
-            _fsm.Coin();
-            Assert.True(_fsm.ActiveState is UnlockedTurnstileFsmState);
+            Coin();
+            Assert.True(ActiveState is OneCoinTurnStileStateUnlocked);
 
-            _fsm.Pass();
-            Assert.True(_fsm.ActiveState is LockedTurnstileFsmState);
-
+            Pass();
+            Assert.True(ActiveState is OneCoinTurnStileStateLocked);
             // Assert.Empty(msg);
             // Assert.Empty(passMsg);
+        }
+
+        public override void Alarm()
+        {
+            Actions += "A";
+        }
+
+        public override void ThankYou()
+        {
+            Actions += "T";
+        }
+
+        public override void Unlock()
+        {
+            Actions += "U";
+        }
+
+        public override void Lock()
+        {
+            Actions += "L";
+        }
+
+        public void AssertActions(string expected)
+        {
+            Assert.Equal(expected, Actions);
         }
     }
 }
