@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿global using Xunit;
+global using System.Threading.Tasks;
 using Patterns.Architecture.Turnstiles;
-using Xunit;
 
 namespace Patterns.Architecture.Tests.TurnstileTests
 {
