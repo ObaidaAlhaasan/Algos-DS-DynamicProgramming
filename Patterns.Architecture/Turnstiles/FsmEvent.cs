@@ -1,4 +1,4 @@
-﻿namespace Patterns.Architecture.Turnstile
+﻿namespace Patterns.Architecture.Turnstiles
 {
     public interface FsmEvent
     {
