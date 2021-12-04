@@ -1,14 +1,8 @@
-﻿using System.Dynamic;
-using System.Transactions;
-using Patterns.Architecture.Turnstiles;
+﻿using Patterns.Architecture.Turnstiles;
 
 namespace Patterns.Architecture.TrunstileTable
 {
-    public class TurnstileTable
-    {
-    }
-
-    class Transition
+    public class Transition
     {
         public State CurrentState { get; private set; }
         public FsmEvent Event { get; private set; }
@@ -45,7 +39,7 @@ namespace Patterns.Architecture.TrunstileTable
         }
     }
 
-    internal enum State
+    public enum State
     {
         Locked,
         Unlocked
