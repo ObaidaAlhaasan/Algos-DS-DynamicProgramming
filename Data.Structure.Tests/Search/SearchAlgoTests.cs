@@ -29,6 +29,14 @@ namespace Data.Structure.Tests.Search
         }
 
         [Fact]
+        public void BinarySearchLoop()
+        {
+            Assert.Equal(7, SearchAlgo.BinarySearchLoop(sortedArr, 21));
+            Assert.Equal(-1, SearchAlgo.BinarySearchLoop(sortedArr, 200));
+        }
+
+
+        [Fact]
         public void TernarySearch()
         {
             Assert.Equal(7, SearchAlgo.TernarySearch(sortedArr, 21));
@@ -43,7 +51,7 @@ namespace Data.Structure.Tests.Search
         }
 
         [Fact]
-        public  void ExponentialSearch()
+        public void ExponentialSearch()
         {
             Assert.Equal(7, SearchAlgo.ExponentialSearch(sortedArr, 21));
             Assert.Equal(-1, SearchAlgo.ExponentialSearch(sortedArr, 200));
